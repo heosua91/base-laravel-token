@@ -1,6 +1,6 @@
 ## About Base Laravel API
 
-- Authentication Basic without verify email
+- Authentication Basic with verify email
 - Role with Gate and Policy
 
 ## License

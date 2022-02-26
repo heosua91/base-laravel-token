@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::middleware(['auth:sanctum', 'role'])->get('/user', function (Request $request) {
-    return $request->user();
-})->name('user');
+Route::middleware(['auth:sanctum', 'role'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    })->name('user');
+
+    Route::post('/user', function (Request $request) {
+        return parse_json(['message' => 'Success'], Response::HTTP_OK);
+    });
+});
