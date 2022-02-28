@@ -28,14 +28,20 @@ class RegisterController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        /**  @var \App\Models\User $user */
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->tokens()->whereName('login')->delete();
+        $token = $user->createToken('login');
 
         event(new Registered($user));
 
-        return response()->json(api_format([]), Response::HTTP_CREATED);
+        return response()->json(api_format([
+            'token' => $token->plainTextToken,
+            'token_type' => 'Bearer'
+        ]), Response::HTTP_CREATED);
     }
 }

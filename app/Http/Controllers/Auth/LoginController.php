@@ -25,7 +25,8 @@ class LoginController extends Controller
         $token = $user->createToken('login');
 
         return response()->json(api_format([
-            'token' => $token->plainTextToken
+            'token' => $token->plainTextToken,
+            'token_type' => 'Bearer'
         ]), Response::HTTP_OK);
     }
 
