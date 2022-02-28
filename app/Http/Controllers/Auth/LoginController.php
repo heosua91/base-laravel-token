@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +24,9 @@ class LoginController extends Controller
         $user->tokens()->whereName('login')->delete();
         $token = $user->createToken('login');
 
-        return parse_json(['token' => $token->plainTextToken], Response::HTTP_OK);
+        return response()->json(api_format([
+            'token' => $token->plainTextToken
+        ]), Response::HTTP_OK);
     }
 
     /**
@@ -38,6 +39,6 @@ class LoginController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return parse_json([], Response::HTTP_OK);
+        return response()->json(api_format([]), Response::HTTP_OK);
     }
 }

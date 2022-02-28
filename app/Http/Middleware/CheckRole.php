@@ -23,6 +23,8 @@ class CheckRole
             return $next($request);
         }
 
-        return parse_json(['message' => 'Forbidden'], Response::HTTP_FORBIDDEN, true);
+        return response()->json(api_format([
+            'message' => 'Forbidden'
+        ], true), Response::HTTP_FORBIDDEN);
     }
 }

@@ -36,6 +36,6 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
-        return parse_json([], Response::HTTP_CREATED);
+        return response()->json(api_format([]), Response::HTTP_CREATED);
     }
 }

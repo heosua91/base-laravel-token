@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Response;
@@ -19,21 +18,17 @@ class VerifyEmailController extends Controller
     public function __invoke(EmailVerificationRequest $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return $request->expectsJson() ? parse_json([
+            return response()->json(api_format([
                 'message' => 'Your account has been verified.',
-            ], Response::HTTP_OK) : redirect()->intended(
-                config('app.frontend_url') . RouteServiceProvider::HOME . '?verified=1'
-            );
+            ]), Response::HTTP_OK);
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return $request->expectsJson() ? parse_json([
+        return response()->json(api_format([
             'message' => 'Your account has been verified.',
-        ], Response::HTTP_OK) : redirect()->intended(
-            config('app.frontend_url') . RouteServiceProvider::HOME . '?verified=1'
-        );
+        ]), Response::HTTP_OK);
     }
 }

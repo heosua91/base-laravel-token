@@ -51,6 +51,6 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        return parse_json(['status' => __($status)], Response::HTTP_OK);
+        return response()->json(api_format(['status' => __($status)]), Response::HTTP_OK);
     }
 }

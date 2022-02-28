@@ -40,21 +40,20 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function (ValidationException $e, $request) {
-            if ($request->is('api/*')) {
-                return parse_json([
-                    'message' => $e->getMessage(),
-                    'errors' => [$e->errors()]
-                ], $e->status, true);
-            }
-        });
-
         !config('app.debug') && $this->renderable(function (Throwable $e, $request) {
             if ($request->is('api/*')) {
-                return parse_json([
+                return response()->json(api_format([
                     'message' => $e->getMessage(),
-                ], Response::HTTP_INTERNAL_SERVER_ERROR, true);
+                ], true), Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         });
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json(api_format([
+            'message' => $exception->getMessage(),
+            'errors' => [$exception->errors()]
+        ], true), $exception->status);
     }
 }

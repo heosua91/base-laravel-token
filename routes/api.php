@@ -23,6 +23,6 @@ Route::middleware(['auth:sanctum', 'role'])->group(function () {
     })->name('user');
 
     Route::post('/user', function (Request $request) {
-        return parse_json(['message' => 'Success'], Response::HTTP_OK);
+        return response()->json(api_format(['message' => 'Success']), Response::HTTP_OK);
     });
 });

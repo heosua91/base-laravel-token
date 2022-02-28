@@ -1,4 +1,4 @@
-## About Base Laravel API
+## About Base Laravel Token
 
 - Authentication Basic with verify email
 - Role with Gate and Policy
